@@ -1,5 +1,5 @@
 function love.load()
-	success = love.window.setMode(720, 1280)
+	success = love.window.setMode(720, 800)
 	love.graphics.setBackgroundColor(173/255, 216/255, 230/255, 1)
 
 	Object = require "classic"
@@ -10,8 +10,8 @@ function love.load()
 	require "floor"
 	require "sky"
 
-	tempPlayer = Player(100, 100)
 	tempFloor = Floor(0, 880)
+	tempPlayer = Player(100, 100)
 end
 
 function love.draw()
