@@ -10,15 +10,25 @@ function love.load()
 	require "floor"
 	require "sky"
 
-	tempFloor = Floor(0, 600)
+	tempFloor = Floor()
 	tempPlayer = Player(100, 100)
+
+	pipes = {}
+	table.insert(pipes, Pipe(300, 0, tempFloor.y))
 end
 
 function love.draw()
 	tempPlayer:draw()
 	tempFloor:draw()
+	
+	for i,pipe in ipairs(pipes) do
+		pipe:draw()
+	end
 end
 
 function love.update(dt)
 	tempPlayer:update(dt)
+	for i, pipe in ipairs(pipes) do
+		pipe:update(dt)
+	end
 end
