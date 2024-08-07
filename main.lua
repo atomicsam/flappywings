@@ -10,7 +10,7 @@ function love.load()
 	require "floor"
 	require "sky"
 
-	tempFloor = Floor(0, 880)
+	tempFloor = Floor(0, 600)
 	tempPlayer = Player(100, 100)
 end
 

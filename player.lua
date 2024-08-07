@@ -6,7 +6,7 @@ function Player:new(x, y)
 	self.height = 50
 
 	self.gravity = 0
-	self.weight = 50
+	self.weight = 20
 end
 
 function Player:update(dt)
@@ -14,10 +14,11 @@ function Player:update(dt)
 	self.y = self.y + self.gravity
 
 	if love.keyboard.isDown("space") then
-		self.gravity = -10
+		self.gravity = -7
 	end
 end
 
 function Player:draw()
+	love.graphics.setColor(221/255, 119/255, 119/255)
 	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end

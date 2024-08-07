@@ -1,10 +1,11 @@
 Floor = Entity:extend()
 
-function Floor:new(x, y)
-	Floor.super.new(self, x, y)
-	
-	self.width = 720
-	self.height = 400
+function Floor:new()
+	self.width = love.graphics:getWidth()
+	self.height = love.graphics:getHeight()*0.2
+
+	y = love.graphics:getHeight() - self.height
+	Floor.super.new(self, 0, y)
 end
 
 function Floor:draw()
