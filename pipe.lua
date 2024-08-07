@@ -7,10 +7,9 @@ function Pipe:new(x, y, maxHeight)
 	self.width = 70
 	self.height = love.math.random(50, maxHeight-200)
 	self.spacing = 175
-	self.speed = 50
+	self.speed = 150
 
-	-- for testing
-	self.time = 2
+	self.hasReachedEnd = false
 end
 
 function Pipe:draw()
@@ -25,14 +24,12 @@ end
 
 function Pipe:update(dt)
 	self.x = self.x - self.speed * dt
-	if self.time < 0 then
-		self.height = love.math.random(50, self.maxHeight-self.spacing)
-		self.time = 2
-	else
-		self.time = self.time - dt
-	end
 end
 
 function Pipe:reachedEnd()
-	
+	return self.x <= 0
+end
+
+function Pipe:passedEnd()
+	return self.x <= 0 - self.width
 end
