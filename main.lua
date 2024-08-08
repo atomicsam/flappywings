@@ -27,15 +27,20 @@ function love.draw()
 end
 
 function love.update(dt)
-	tempPlayer:update(dt)
-	for i, pipe in ipairs(pipes) do
-		pipe:update(dt)
-		if pipe:reachedEnd() and not pipe.hasReachedEnd then
-			table.insert(pipes, Pipe(love.graphics:getWidth(), 0, tempFloor.y))
-			pipe.hasReachedEnd = true
-		end
-		if pipe:passedEnd() then
-			table.remove(pipes, i)
+	if tempPlayer:hitFloor(tempFloor) then
+		tempPlayer.alive = false
+		tempPlayer.y = tempFloor.y - tempPlayer.height
+	else
+		tempPlayer:update(dt)
+		for i, pipe in ipairs(pipes) do
+			pipe:update(dt)
+			if pipe:reachedEnd() and not pipe.hasReachedEnd then
+				table.insert(pipes, Pipe(love.graphics:getWidth(), 0, tempFloor.y))
+				pipe.hasReachedEnd = true
+			end
+			if pipe:passedEnd() then
+				table.remove(pipes, i)
+			end
 		end
 	end
 end
