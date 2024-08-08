@@ -12,12 +12,11 @@ function Pipe:new(x, y, maxHeight)
 	self.hasReachedEnd = false
 end
 
-function Pipe:draw()
-	love.graphics.setColor(221/255, 119/255, 119/255)
-	
+function Pipe:draw()	
 	-- draw the top and bottom part of the pipe and create a gap for player to pass through
+	love.graphics.setColor(221/255, 119/255, 119/255)
 	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-	love.graphics.setColor(0/255, 0/255, 119/255)
+	love.graphics.setColor(221/255, 119/255, 119/255)
 	love.graphics.rectangle("fill", self.x, self.height+self.spacing,
 							self.width, self.maxHeight-self.height-self.spacing)
 end
@@ -27,7 +26,7 @@ function Pipe:update(dt)
 end
 
 function Pipe:reachedEnd()
-	return self.x <= 0
+	return self.x <= 200
 end
 
 function Pipe:passedEnd()
