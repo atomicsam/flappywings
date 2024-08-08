@@ -8,25 +8,24 @@ function Player:new(x, y)
 	self.gravity = 0
 	self.weight = 30
 
-	self.alive = true
+	self.alive = false
+	self.score = 0
 end
 
 function Player:update(dt)
-	self.gravity = self.gravity + self.weight * dt
-	self.y = self.y + self.gravity
+	if self.alive then
+		self.gravity = self.gravity + self.weight * dt
+		self.y = self.y + self.gravity
 
-	if love.keyboard.isDown("space") then
-		self.gravity = -7
+		if love.keyboard.isDown("space") then
+			self.gravity = -7
+		end
 	end
 end
 
 function Player:draw()
 	love.graphics.setColor(221/255, 221/255, 119/255)
 	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-
-	if self.alive == false then
-		love.graphics.print("Press F2 to restart the game!", 300, 200)
-	end
 end
 
 function Player:hitFloor(floorEntity)

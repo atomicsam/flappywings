@@ -9,7 +9,7 @@ function Pipe:new(x, y, maxHeight)
 	self.spacing = 175
 	self.speed = 150
 
-	self.hasReachedEnd = false
+	self.passedFront = false
 end
 
 function Pipe:draw()	
