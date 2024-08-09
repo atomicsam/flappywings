@@ -86,6 +86,7 @@ end
 function drawPipes(pipeTable, dt)
 	for i, pipe in ipairs(pipeTable) do
 		pipe:update(dt)
+		pipe:updateScore(tempPlayer)
 		if pipe:reachedEnd() and not pipe.passedFront then
 			table.insert(pipeTable, Pipe(love.graphics:getWidth(), 0, tempFloor.y))
 			pipe.passedFront = true
@@ -94,8 +95,4 @@ function drawPipes(pipeTable, dt)
 			table.remove(pipeTable, i)
 		end
 	end
-end
-
-function updateScore()
-
 end

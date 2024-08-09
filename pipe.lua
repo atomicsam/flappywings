@@ -10,6 +10,7 @@ function Pipe:new(x, y, maxHeight)
 	self.speed = 150
 
 	self.passedFront = false
+	self.playerPassed = false
 end
 
 function Pipe:draw()	
@@ -31,4 +32,12 @@ end
 
 function Pipe:passedEnd()
 	return self.x <= 0 - self.width
+end
+
+function Pipe:updateScore(player)
+	if not self.playerPassed and player.x > self.x + self.width then
+		self.playerPassed = true
+		player.score = player.score + 1
+		return true
+	end
 end
