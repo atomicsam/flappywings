@@ -10,9 +10,12 @@ function Player:new(x, y)
 
 	self.alive = false
 	self.score = 0
+
+	-- self.lastY = self.y
 end
 
 function Player:update(dt)
+	self.lastY = self.y
 	if self.alive then
 		self.gravity = self.gravity + self.weight * dt
 		self.y = self.y + self.gravity

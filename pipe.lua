@@ -11,6 +11,8 @@ function Pipe:new(x, y, maxHeight)
 
 	self.passedFront = false
 	self.playerPassed = false
+
+	self.lastX = self.x
 end
 
 function Pipe:draw()	
@@ -23,6 +25,7 @@ function Pipe:draw()
 end
 
 function Pipe:update(dt)
+	self.lastX = self.x
 	self.x = self.x - self.speed * dt
 end
 
@@ -39,5 +42,20 @@ function Pipe:updateScore(player)
 		self.playerPassed = true
 		player.score = player.score + 1
 		return true
+	end
+end
+
+-- a function that pushes the player back so the game looks neater
+function Pipe:resolvePlayerCollision(player)
+	if player.x + player.width >= self.lastX
+	and player.x < self.lastX + self.width then
+		print(player.y + player.height - self.y + self.height + self.spacing)
+		if player.y < self.y + self.height then
+			local dif = self.y + self.height - player.y
+			player.y = player.y + dif
+		else
+			local dif = player.y + player.height - self.y + self.height + self.spacing
+			player.y = player.y - dif
+		end
 	end
 end

@@ -55,14 +55,14 @@ function love.update(dt)
 	if tempPlayer:hitFloor(tempFloor) then
 		tempPlayer.alive = false
 		tempPlayer.y = tempFloor.y - tempPlayer.height
-	else
+	elseif tempPlayer.alive then
 		tempPlayer:update(dt)
 		drawPipes(pipes, dt)
 	end
 end
 
 function love.keypressed(key)
-	if key == "f2" and not tempPlayer.alive then
+	if key == "f2" and not tempPlayer.alive and gameStarted then
 		startGame()
 	end
 	if key == "space" and not gameStarted then
@@ -87,6 +87,7 @@ function drawPipes(pipeTable, dt)
 	for i, pipe in ipairs(pipeTable) do
 		if tempPlayer:hitPipe(pipe) then
 			tempPlayer.alive = false
+			pipe:resolvePlayerCollision(tempPlayer)
 			break
 		end
 		if tempPlayer.alive then
