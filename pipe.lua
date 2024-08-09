@@ -49,13 +49,15 @@ end
 function Pipe:resolvePlayerCollision(player)
 	if player.x + player.width >= self.lastX
 	and player.x < self.lastX + self.width then
-		print(player.y + player.height - self.y + self.height + self.spacing)
 		if player.y < self.y + self.height then
 			local dif = self.y + self.height - player.y
 			player.y = player.y + dif
 		else
-			local dif = player.y + player.height - self.y + self.height + self.spacing
+			local dif = (player.y + player.height) - (self.y + self.height + self.spacing)
 			player.y = player.y - dif
 		end
+	else
+		local dif = player.x + player.width - self.x
+		player.x = player.x - dif
 	end
 end

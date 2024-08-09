@@ -31,12 +31,12 @@ function love.load()
 end
 
 function love.draw()
-	tempPlayer:draw()
 	tempFloor:draw()
 	
 	for i,pipe in ipairs(pipes) do
 		pipe:draw()
 	end
+	tempPlayer:draw()
 
 	-- print appropriate text
 	love.graphics.setColor(0, 0, 0, 1)
