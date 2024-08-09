@@ -31,6 +31,13 @@ function love.load()
 end
 
 function love.draw()
+	tempPlayer:draw()
+	tempFloor:draw()
+	
+	for i,pipe in ipairs(pipes) do
+		pipe:draw()
+	end
+
 	-- print appropriate text
 	love.graphics.setColor(0, 0, 0, 1)
 	if not gameStarted then
@@ -41,13 +48,6 @@ function love.draw()
 	else
 		love.graphics.print(tempPlayer.score, font, 
 							getTextCenter(font, tempPlayer.score), textHeight)
-	end
-
-	tempPlayer:draw()
-	tempFloor:draw()
-	
-	for i,pipe in ipairs(pipes) do
-		pipe:draw()
 	end
 end
 
