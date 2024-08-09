@@ -31,3 +31,9 @@ end
 function Player:hitFloor(floorEntity)
 	return self.y + self.height >= floorEntity.y
 end
+
+function Player:hitPipe(pipeEntity)
+	return self.x <= pipeEntity.x + pipeEntity.width
+	and self.x + self.width >= pipeEntity.x
+	and (self.y <= pipeEntity.height or self.y + self.height >= pipeEntity.height + pipeEntity.spacing)
+end
