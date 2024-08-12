@@ -27,6 +27,7 @@ function love.load()
 	playerStartingX = windowWidth * 0.3
 	playerStartingY = (windowHeight-tempFloor.height)*0.42
 	tempPlayer = Player(playerStartingX, playerStartingY)
+	-- tempPlayer:loadPlayerImage()
 	pipes = {}
 end
 
