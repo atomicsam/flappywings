@@ -33,7 +33,7 @@ end
 
 function Player:draw()
 	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.draw(self.playerImage, self.frames[math.floor(self.currentFrame)+7],
+	love.graphics.draw(self.playerImage, self.frames[math.floor(self.currentFrame)],
 						self.x, self.y, 0, self.scaleFactor, self.scaleFactor)
 end
 
@@ -53,8 +53,8 @@ function Player:loadPlayerImage()
 	self.frames = {}
 	self.numFrames = 4
 	self.numFrameStyles = 7
-	self.frameStyle = 2
-	self.startFrame = (self.frameStyle - 1) * self.numFrameStyles + 1
+	self.frameStyle = 1
+	self.startFrame = (self.frameStyle - 1) * self.numFrames + 1
 
 	local width = self.playerImage:getWidth()
 	local height = self.playerImage:getHeight()
@@ -65,12 +65,17 @@ function Player:loadPlayerImage()
 	self.width = self.frameWidth * self.scaleFactor
 	self.height = self.frameHeight * self.scaleFactor
 
-	for i=1,4 do
-		for j=1,7 do
+	for i=0,6 do
+		for j=0,3 do
 			table.insert(self.frames, love.graphics.newQuad(j*self.frameWidth, i*self.frameHeight,
 							self.frameWidth, self.frameHeight, self.playerImage:getWidth(),
 							self.playerImage:getHeight()))
 		end
+	end
+
+	local count = 0
+	for i=1,#self.frames do
+		count = count + 1
 	end
 	
 	self.currentFrame = self.startFrame

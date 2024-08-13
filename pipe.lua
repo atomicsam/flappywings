@@ -8,6 +8,7 @@ function Pipe:new(x, y, maxHeight)
 	self.height = love.math.random(50, maxHeight-200)
 	self.spacing = 175
 	self.speed = 150
+	self.image = love.graphics.newImage("assets/Tiles/PipeStyle1.png")
 
 	self.passedFront = false
 	self.playerPassed = false
@@ -22,6 +23,8 @@ function Pipe:draw()
 	love.graphics.setColor(221/255, 119/255, 119/255)
 	love.graphics.rectangle("fill", self.x, self.height+self.spacing,
 							self.width, self.maxHeight-self.height-self.spacing)
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.draw(self.image, 0, 0)
 end
 
 function Pipe:update(dt)
@@ -59,5 +62,17 @@ function Pipe:resolvePlayerCollision(player)
 	else
 		local dif = player.x + player.width - self.x
 		player.x = player.x - dif
+	end
+end
+
+function Pipe:importImage()
+	self.pipeStyles = {}
+	self.rows = 2
+	self.colums = 4
+
+	for i=1,4 do
+		for j=1,2 do
+			table.insert(self.pipeStyles, love.graphics.newQuad(i*self.image:getHeight()/2))
+		end
 	end
 end
