@@ -1,6 +1,7 @@
 function love.load()
 	success = love.window.setMode(720, 800)
 	love.graphics.setBackgroundColor(173/255, 216/255, 230/255, 1)
+	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	windowWidth = love.graphics:getWidth()
 	windowHeight = love.graphics:getHeight()

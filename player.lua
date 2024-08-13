@@ -2,16 +2,15 @@ Player = Entity:extend()
 
 function Player:new(x, y)
 	Player.super.new(self, x, y)
-	self.width = 50
-	self.height = 50
 
 	self.gravity = 0
 	self.weight = 30
 
+
+
 	self.alive = false
 	self.score = 0
 
-	self.playerImage = love.graphics.newImage("assets/Player/StyleBird1/AllBird1.png")
 	self:loadPlayerImage()
 	-- self.lastY = self.y
 end
@@ -25,18 +24,17 @@ function Player:update(dt)
 		if love.keyboard.isDown("space") then
 			self.gravity = -7
 		end
+		self.currentFrame = self.currentFrame + 10 * dt
+		if self.currentFrame >= (self.startFrame - 1) + self.numFrames then
+			self.currentFrame = self.startFrame
+		end
 	end
 end
 
 function Player:draw()
-	love.graphics.setColor(221/255, 221/255, 119/255)
-	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-	love.graphics.draw(self.playerImage, self.frames[self.currentFrame], 100, 100)
-	if self.currentFrame < self.numFrames then
-		self.currentFrame = self.currentFrame + 1
-	else
-		self.currentFrame = 1
-	end
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.draw(self.playerImage, self.frames[math.floor(self.currentFrame)+7],
+						self.x, self.y, 0, self.scaleFactor, self.scaleFactor)
 end
 
 function Player:hitFloor(floorEntity)
@@ -50,23 +48,30 @@ function Player:hitPipe(pipeEntity)
 end
 
 function Player:loadPlayerImage()
+	self.playerImage = love.graphics.newImage("assets/Player/StyleBird1/AllBird1.png")
+
 	self.frames = {}
 	self.numFrames = 4
+	self.numFrameStyles = 7
+	self.frameStyle = 2
+	self.startFrame = (self.frameStyle - 1) * self.numFrameStyles + 1
 
 	local width = self.playerImage:getWidth()
 	local height = self.playerImage:getHeight()
 
-	local frameWidth = width/4
-	local frameHeight = height/7
+	self.frameWidth = width/self.numFrames
+	self.frameHeight = height/self.numFrameStyles
+	self.scaleFactor = 4
+	self.width = self.frameWidth * self.scaleFactor
+	self.height = self.frameHeight * self.scaleFactor
 
 	for i=1,4 do
 		for j=1,7 do
-			table.insert(self.frames, love.graphics.newQuad(i*frameWidth, j*frameHeight,
-							frameWidth, frameHeight, self.playerImage:getWidth(),
+			table.insert(self.frames, love.graphics.newQuad(j*self.frameWidth, i*self.frameHeight,
+							self.frameWidth, self.frameHeight, self.playerImage:getWidth(),
 							self.playerImage:getHeight()))
 		end
 	end
 	
-	self.currentFrame = 1
-	-- return frames
+	self.currentFrame = self.startFrame
 end
