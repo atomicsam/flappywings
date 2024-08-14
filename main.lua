@@ -9,7 +9,7 @@ function love.load()
 	textHeight = windowHeight * 0.15
 
 	font = love.graphics.newFont("fonts/firasanscompressed-book.otf", 24)
-	-- font:setFilter("nearest")
+	font:setFilter("nearest")
 	restartText = "Press F2 to restart the game!"
 	textCenterRestart = getTextCenter(font, restartText)
 	startText = "Press space to get the game started"
@@ -25,11 +25,14 @@ function love.load()
 	require "floor"
 	require "sky"
 
-	tempFloor = Floor()
+	firstFloorEntity = Floor(0)
+	floorTable = {}
+	table.insert(floorTable, firstFloorEntity)
+	generateFloor()
+
 	playerStartingX = windowWidth * 0.3
-	playerStartingY = (windowHeight-tempFloor.height)*0.42
+	playerStartingY = (windowHeight-firstFloorEntity.height)*0.42
 	tempPlayer = Player(playerStartingX, playerStartingY)
-	-- tempPlayer:loadPlayerImage()
 	pipes = {}
 end
 
@@ -51,17 +54,26 @@ function love.draw()
 	end
 	love.graphics.print("Score: " .. tempPlayer.score, font, 
 					getTextCenter(font, "Score: " .. tempPlayer.score), textHeight-30)
-	tempFloor:draw()
+	for i, entity in ipairs(floorTable) do
+		entity:draw()
+	end
 end
 
 function love.update(dt)
-	if tempPlayer:hitFloor(tempFloor) then
+	if tempPlayer:hitFloor(firstFloorEntity) then
 		tempPlayer.alive = false
-		tempPlayer.y = tempFloor.y - tempPlayer.height
+		tempPlayer.y = firstFloorEntity.y - tempPlayer.height
 	elseif tempPlayer.alive then
 		tempPlayer:update(dt)
 		drawPipes(pipes, dt)
 	end
+
+	if tempPlayer.alive then
+		for i, floor in ipairs(floorTable) do
+			floor:update(dt)
+		end
+	end
+	drawFloorTable()
 end
 
 function love.keypressed(key)
@@ -79,7 +91,7 @@ function startGame()
 	tempPlayer.alive = true
 
 	pipes = {}
-	table.insert(pipes, Pipe(love.graphics:getWidth(), 0, tempFloor.y))
+	table.insert(pipes, Pipe(love.graphics:getWidth(), 0, firstFloorEntity.y))
 end
 
 function getTextCenter(font, text)
@@ -88,21 +100,37 @@ end
 
 function drawPipes(pipeTable, dt)
 	for i, pipe in ipairs(pipeTable) do
+		-- collision detection
 		if tempPlayer:hitPipe(pipe) then
 			tempPlayer.alive = false
 			pipe:resolvePlayerCollision(tempPlayer)
 			break
 		end
+
 		if tempPlayer.alive then
 			pipe:update(dt)
 			pipe:updateScore(tempPlayer)
 			if pipe:reachedEnd() and not pipe.passedFront then
-				table.insert(pipeTable, Pipe(love.graphics:getWidth(), 0, tempFloor.y))
+				table.insert(pipeTable, Pipe(love.graphics:getWidth(), 0, firstFloorEntity.y))
 				pipe.passedFront = true
 			end
 			if pipe:passedEnd() then
 				table.remove(pipeTable, i)
 			end
 		end
+	end
+end
+
+function drawFloorTable()
+	if floorTable[1].x < (0 - firstFloorEntity.frameWidth*5) then
+		print(floorTable[1].x)
+		table.remove(floorTable, 1)
+		table.insert(floorTable, Floor(floorTable[#floorTable].x + firstFloorEntity.frameWidth*5))
+	end
+end
+
+function generateFloor()
+	for i=1,9 do
+		table.insert(floorTable, Floor((firstFloorEntity.frameWidth*5)*i))
 	end
 end
