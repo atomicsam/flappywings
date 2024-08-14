@@ -5,8 +5,11 @@ function Pipe:new(x, y, maxHeight)
 
 	self.maxHeight = maxHeight
 	self.height = love.math.random(50, maxHeight-200)
-	self.spacing = 175
-	self.speed = 150
+	self.spacing = 150
+	
+	if not pipeSpeed then
+		pipeSpeed = 250
+	end
 
 	self.pipe2y = self.height + self.spacing
 	self.pipe2height = self.maxHeight-self.height-self.spacing
@@ -43,21 +46,24 @@ end
 
 function Pipe:update(dt)
 	self.lastX = self.x
-	self.x = self.x - self.speed * dt
+	self.x = self.x - pipeSpeed * dt
 end
 
 function Pipe:reachedEnd()
-	return self.x <= 200
+	return self.x <= 400
 end
 
 function Pipe:passedEnd()
-	return self.x <= 0 - self.width - 20
+	return self.x <= 0 - self.width
 end
 
 function Pipe:updateScore(player)
 	if not self.playerPassed and player.x > self.x + self.width then
 		self.playerPassed = true
 		player.score = player.score + 1
+		if math.fmod(player.score, 5) == 0 and score ~= 0 then
+			pipeSpeed = pipeSpeed + 50
+		end
 		return true
 	end
 end
