@@ -10,12 +10,12 @@ function love.load()
 	textHeight = windowHeight * 0.15
 
 	font = love.graphics.newFont("fonts/firasanscompressed-book.otf", 24)
-	titleFont = love.graphics.newFont("fonts/title.ttf")
 	font:setFilter("nearest")
-	restartText = "Press F2 to restart the game!"
-	textCenterRestart = getTextCenter(font, restartText)
-	startText = "Press space to get the game started"
-	textCenterStart = getTextCenter(font, startText)
+
+	-- restartText = "Press F2 to restart the game!"
+	-- textCenterRestart = getTextCenter(font, restartText)
+	-- startText = "Press space to get the game started"
+	-- textCenterStart = getTextCenter(font, startText)
 
 	flashDuration = 0.1
 	highScore = 0
@@ -55,16 +55,13 @@ function love.draw()
 	if not gameStarted then
 		love.graphics.setColor(1, 1, 1, 1)
 		love.graphics.draw(logo, windowWidth/2-logo:getWidth(), 10, 0, 2, 2)
-		love.graphics.setColor(0, 0, 0, 1)
-		love.graphics.print(startText, font, textCenterStart, textHeight)
+		printTextCenter(font, "Press space to get the game started", textHeight)
 
 	elseif not tempPlayer.alive then
-		love.graphics.print(restartText, font,
-			textCenterRestart, textHeight)
+		printTextCenter(font, "Press F2 to restart the game!", textHeight)
 		printTextCenter(font, "High Score: "..highScore, 10)
 	end
-	love.graphics.print("Score: " .. tempPlayer.score, font, 
-					getTextCenter(font, "Score: " .. tempPlayer.score), textHeight-30)
+	printTextCenter(font, "Score: " .. tempPlayer.score, textHeight - 30)
 	for i, entity in ipairs(floorTable) do
 		entity:draw()
 	end
@@ -120,12 +117,12 @@ function startGame()
 	table.insert(pipes, Pipe(love.graphics:getWidth(), 0, firstFloorEntity.y))
 end
 
-function getTextCenter(font, text)
-	return windowWidth/2 - font:getWidth(text)/2
-end
+-- function getTextCenter(font, text)
+-- 	return windowWidth/2 - font:getWidth(text)/2
+-- end
 
 function printTextCenter(font, text, height)
-	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.setColor(0, 0, 0, 1)
 	love.graphics.print(text, font, windowWidth/2 - font:getWidth(text)/2, height)
 end
 
