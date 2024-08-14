@@ -9,7 +9,7 @@ function Player:new(x, y)
 	self.alive = false
 	self.score = 0
 
-	self.speedOfAnimation = 15
+	self.speedOfAnimation = 10
 
 	self:loadPlayerImage()
 	-- self.lastY = self.y
