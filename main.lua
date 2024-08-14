@@ -62,10 +62,13 @@ end
 function love.update(dt)
 	if tempPlayer:hitFloor(firstFloorEntity) then
 		tempPlayer.alive = false
+		tempPlayer.moving = false
 		tempPlayer.y = firstFloorEntity.y - tempPlayer.height
-	elseif tempPlayer.alive then
+	elseif tempPlayer.moving then
 		tempPlayer:update(dt)
-		drawPipes(pipes, dt)
+		if tempPlayer.alive then
+			drawPipes(pipes, dt)
+		end
 	end
 
 	if tempPlayer.alive then
@@ -89,6 +92,7 @@ end
 function startGame()
 	tempPlayer = Player(playerStartingX, playerStartingY)
 	tempPlayer.alive = true
+	tempPlayer.moving = true
 
 	pipes = {}
 	table.insert(pipes, Pipe(love.graphics:getWidth(), 0, firstFloorEntity.y))
