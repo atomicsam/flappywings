@@ -7,6 +7,7 @@ function Player:new(x, y)
 	self.weight = 30
 
 	self.alive = false
+	self.moving = false
 	self.score = 0
 
 	self.speedOfAnimation = 10
@@ -17,22 +18,28 @@ end
 
 function Player:update(dt)
 	self.lastY = self.y
-	if self.alive then
+	if self.moving then
 		self.gravity = self.gravity + self.weight * dt
 		self.y = self.y + self.gravity
-		if self.rotation < 1.5 then
+		if self.rotation < (math.pi/2) then
 			if self.gravity >= 0 then
-				self.rotation = self.rotation + 7 * dt
+				self.rotation = self.rotation + 9 * dt
 				self.width = self.width - 100 * dt
+				self.height = self.originalHeight
 			end
 		else
 			self.width = self.originalWidth - 30
+			self.rotation = (math.pi/2)
+			self.height = self.originalHeight + 25
 		end
+	end
 
+	if self.alive then
 		if love.keyboard.isDown("space") then
 			self.gravity = -7
 			self.rotation = -0.75
-			self.width = self.originalWidth + 3
+			self.width = self.originalWidth - 10
+			self.height = self.originalHeight
 		end
 		self.currentFrame = self.currentFrame + self.speedOfAnimation * dt
 		if self.currentFrame >= (self.startFrame - 1) + self.numFrames then
@@ -82,7 +89,8 @@ function Player:loadPlayerImage()
 	self.width = self.originalWidth
 
 	-- frame has empty space so -5 will offset this
-	self.height = (self.frameHeight * self.scaleFactor) - 10
+	self.originalHeight = (self.frameHeight * self.scaleFactor) - 10
+	self.height = self.originalHeight
 
 	for i=0,6 do
 		for j=0,3 do
