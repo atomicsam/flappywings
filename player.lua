@@ -28,6 +28,7 @@ function Player:update(dt)
 				self.height = self.originalHeight
 			end
 		else
+			swooshSound:play()
 			self.width = self.originalWidth - 30
 			self.rotation = (math.pi/2)
 			self.height = self.originalHeight + 25
@@ -36,6 +37,7 @@ function Player:update(dt)
 
 	if self.alive then
 		if love.keyboard.isDown("space") then
+			wingSound:play()
 			self.gravity = -7
 			self.rotation = -0.75
 			self.width = self.originalWidth - 10

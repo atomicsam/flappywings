@@ -61,7 +61,8 @@ function Pipe:updateScore(player)
 	if not self.playerPassed and player.x > self.x + self.width then
 		self.playerPassed = true
 		player.score = player.score + 1
-		if math.fmod(player.score, 5) == 0 and score ~= 0 then
+		pointSound:play()
+		if math.fmod(player.score, 10) == 0 and score ~= 0 then
 			pipeSpeed = pipeSpeed + 50
 		end
 		return true

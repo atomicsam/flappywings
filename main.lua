@@ -3,18 +3,21 @@ function love.load()
 	-- love.graphics.setBackgroundColor(173/255, 216/255, 230/255, 1)
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	backgroundImage = love.graphics.newImage("assets/Background/Background2.png")
+	logo = love.graphics.newImage("assets/images/logo.png")
 
 	windowWidth = love.graphics:getWidth()
 	windowHeight = love.graphics:getHeight()
 	textHeight = windowHeight * 0.15
 
 	font = love.graphics.newFont("fonts/firasanscompressed-book.otf", 24)
+	titleFont = love.graphics.newFont("fonts/title.ttf")
 	font:setFilter("nearest")
 	restartText = "Press F2 to restart the game!"
 	textCenterRestart = getTextCenter(font, restartText)
 	startText = "Press space to get the game started"
 	textCenterStart = getTextCenter(font, startText)
 
+	importSounds()
 	gameStarted = false
 
 	Object = require "classic"
@@ -47,10 +50,14 @@ function love.draw()
 	-- print appropriate text
 	love.graphics.setColor(0, 0, 0, 1)
 	if not gameStarted then
+		love.graphics.setColor(1, 1, 1, 1)
+		love.graphics.draw(logo, windowWidth/2-logo:getWidth(), 10, 0, 2, 2)
+		love.graphics.setColor(0, 0, 0, 1)
 		love.graphics.print(startText, font, textCenterStart, textHeight)
+
 	elseif not tempPlayer.alive then
 		love.graphics.print(restartText, font,
-			textCenterStart, textHeight)
+			textCenterRestart, textHeight)
 	end
 	love.graphics.print("Score: " .. tempPlayer.score, font, 
 					getTextCenter(font, "Score: " .. tempPlayer.score), textHeight-30)
@@ -60,7 +67,8 @@ function love.draw()
 end
 
 function love.update(dt)
-	if tempPlayer:hitFloor(firstFloorEntity) then
+	if tempPlayer:hitFloor(firstFloorEntity) and tempPlayer.moving then
+		dieSound:play()
 		tempPlayer.alive = false
 		tempPlayer.moving = false
 		tempPlayer.y = firstFloorEntity.y - tempPlayer.height
@@ -106,6 +114,7 @@ function drawPipes(pipeTable, dt)
 	for i, pipe in ipairs(pipeTable) do
 		-- collision detection
 		if tempPlayer:hitPipe(pipe) then
+			hitSound:play()
 			tempPlayer.alive = false
 			pipe:resolvePlayerCollision(tempPlayer)
 			break
@@ -137,4 +146,12 @@ function generateFloor()
 	for i=1,9 do
 		table.insert(floorTable, Floor((firstFloorEntity.frameWidth*5)*i))
 	end
+end
+
+function importSounds()
+	dieSound = love.audio.newSource("assets/audio/sfx_die.wav", "static")
+	hitSound = love.audio.newSource("assets/audio/sfx_hit.wav", "static")
+	pointSound = love.audio.newSource("assets/audio/sfx_point.wav", "static")
+	swooshSound = love.audio.newSource("assets/audio/sfx_swooshing.wav", "static")
+	wingSound = love.audio.newSource("assets/audio/sfx_wing.wav", "static")
 end
