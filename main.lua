@@ -12,11 +12,6 @@ function love.load()
 	font = love.graphics.newFont("fonts/firasanscompressed-book.otf", 24)
 	font:setFilter("nearest")
 
-	-- restartText = "Press F2 to restart the game!"
-	-- textCenterRestart = getTextCenter(font, restartText)
-	-- startText = "Press space to get the game started"
-	-- textCenterStart = getTextCenter(font, startText)
-
 	flashDuration = 0.1
 	highScore = 0
 
@@ -116,10 +111,6 @@ function startGame()
 	pipes = {}
 	table.insert(pipes, Pipe(love.graphics:getWidth(), 0, firstFloorEntity.y))
 end
-
--- function getTextCenter(font, text)
--- 	return windowWidth/2 - font:getWidth(text)/2
--- end
 
 function printTextCenter(font, text, height)
 	love.graphics.setColor(0, 0, 0, 1)
