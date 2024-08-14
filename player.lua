@@ -6,10 +6,10 @@ function Player:new(x, y)
 	self.gravity = 0
 	self.weight = 30
 
-
-
 	self.alive = false
 	self.score = 0
+
+	self.speedOfAnimation = 15
 
 	self:loadPlayerImage()
 	-- self.lastY = self.y
@@ -24,7 +24,7 @@ function Player:update(dt)
 		if love.keyboard.isDown("space") then
 			self.gravity = -7
 		end
-		self.currentFrame = self.currentFrame + 10 * dt
+		self.currentFrame = self.currentFrame + self.speedOfAnimation * dt
 		if self.currentFrame >= (self.startFrame - 1) + self.numFrames then
 			self.currentFrame = self.startFrame
 		end
