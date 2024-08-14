@@ -30,7 +30,7 @@ function Pipe:draw()
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(self.image, self.pipeStyles[self.currentStyle+1], self.x, 
 		self.height - self.frameHeight - 40, 0, 3, 3)
-	love.graphics.draw(self.image, self.pipeExtension[1], self.x, 0, 0, 3, self.height-self.frameHeight)
+	love.graphics.draw(self.image, self.pipeExtension, self.x, 0, 0, 3, self.height-self.frameHeight)
 
 	-- draw bottom pipe
 	love.graphics.setColor(119/255, 221/255, 119/255)
@@ -38,7 +38,7 @@ function Pipe:draw()
 							self.width, self.pipe2height)
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(self.image, self.pipeStyles[self.currentStyle], self.x, self.pipe2y, 0, 3, 3)
-	love.graphics.draw(self.image, self.pipeExtension[1], self.x, self.pipe2y+(self.image:getHeight()/4)*3, 0, 3, 3*self.pipe2height)
+	love.graphics.draw(self.image, self.pipeExtension, self.x, self.pipe2y+(self.image:getHeight()/4)*3, 0, 3, 3*self.pipe2height)
 end
 
 function Pipe:update(dt)
@@ -99,7 +99,6 @@ function Pipe:importImage()
 		end
 	end
 
-	self.pipeExtension = {}
-	table.insert(self.pipeExtension, love.graphics.newQuad(0, 30, frameWidth, 1, self.image:getWidth(),
-		self.image:getWidth()))
+	self.pipeExtension = love.graphics.newQuad(0, 30, frameWidth, 1, self.image:getWidth(), 
+												self.image:getWidth())
 end
