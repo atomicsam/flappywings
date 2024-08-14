@@ -1,7 +1,8 @@
 function love.load()
 	success = love.window.setMode(720, 800)
-	love.graphics.setBackgroundColor(173/255, 216/255, 230/255, 1)
+	-- love.graphics.setBackgroundColor(173/255, 216/255, 230/255, 1)
 	love.graphics.setDefaultFilter("nearest", "nearest")
+	backgroundImage = love.graphics.newImage("assets/Background/Background2.png")
 
 	windowWidth = love.graphics:getWidth()
 	windowHeight = love.graphics:getHeight()
@@ -33,8 +34,8 @@ function love.load()
 end
 
 function love.draw()
-	tempFloor:draw()
-	
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.draw(backgroundImage, 0, -20, 0, 2.85, 2.85)
 	for i,pipe in ipairs(pipes) do
 		pipe:draw()
 	end
@@ -47,10 +48,10 @@ function love.draw()
 	elseif not tempPlayer.alive then
 		love.graphics.print(restartText, font,
 			textCenterStart, textHeight)
-	else
-		love.graphics.print(tempPlayer.score, font, 
-							getTextCenter(font, tempPlayer.score), textHeight)
 	end
+	love.graphics.print("Score: " .. tempPlayer.score, font, 
+					getTextCenter(font, "Score: " .. tempPlayer.score), textHeight-30)
+	tempFloor:draw()
 end
 
 function love.update(dt)
