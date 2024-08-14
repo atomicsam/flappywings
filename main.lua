@@ -18,6 +18,7 @@ function love.load()
 	textCenterStart = getTextCenter(font, startText)
 
 	flashDuration = 0.1
+	highScore = 0
 
 	importSounds()
 	gameStarted = false
@@ -60,6 +61,7 @@ function love.draw()
 	elseif not tempPlayer.alive then
 		love.graphics.print(restartText, font,
 			textCenterRestart, textHeight)
+		printTextCenter(font, "High Score: "..highScore, 10)
 	end
 	love.graphics.print("Score: " .. tempPlayer.score, font, 
 					getTextCenter(font, "Score: " .. tempPlayer.score), textHeight-30)
@@ -78,6 +80,7 @@ function love.update(dt)
 		tempPlayer.alive = false
 		tempPlayer.moving = false
 		tempPlayer.y = firstFloorEntity.y - tempPlayer.height
+		tempPlayer:updateHighScore()
 	elseif tempPlayer.moving then
 		tempPlayer:update(dt)
 		if tempPlayer.alive then
@@ -121,6 +124,11 @@ function getTextCenter(font, text)
 	return windowWidth/2 - font:getWidth(text)/2
 end
 
+function printTextCenter(font, text, height)
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.print(text, font, windowWidth/2 - font:getWidth(text)/2, height)
+end
+
 function drawPipes(pipeTable, dt)
 	for i, pipe in ipairs(pipeTable) do
 		-- collision detection
@@ -128,6 +136,7 @@ function drawPipes(pipeTable, dt)
 			hitSound:play()
 			tempPlayer.alive = false
 			pipe:resolvePlayerCollision(tempPlayer)
+			tempPlayer:updateHighScore()
 			break
 		end
 
