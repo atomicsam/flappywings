@@ -10,9 +10,9 @@ function Player:new(x, y)
 	self.score = 0
 
 	self.speedOfAnimation = 10
+	self.rotation = 0.2
 
 	self:loadPlayerImage()
-	-- self.lastY = self.y
 end
 
 function Player:update(dt)
@@ -20,9 +20,19 @@ function Player:update(dt)
 	if self.alive then
 		self.gravity = self.gravity + self.weight * dt
 		self.y = self.y + self.gravity
+		if self.rotation < 1.5 then
+			if self.gravity >= 0 then
+				self.rotation = self.rotation + 7 * dt
+				self.width = self.width - 100 * dt
+			end
+		else
+			self.width = self.originalWidth - 30
+		end
 
 		if love.keyboard.isDown("space") then
 			self.gravity = -7
+			self.rotation = -0.75
+			self.width = self.originalWidth + 3
 		end
 		self.currentFrame = self.currentFrame + self.speedOfAnimation * dt
 		if self.currentFrame >= (self.startFrame - 1) + self.numFrames then
@@ -34,7 +44,11 @@ end
 function Player:draw()
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(self.playerImage, self.frames[math.floor(self.currentFrame)],
-						self.x, self.y, 0, self.scaleFactor, self.scaleFactor)
+						self.x+self.width/2-5, (self.y+self.height/2)-7, self.rotation,
+						self.scaleFactor, self.scaleFactor,
+						(self.width/self.scaleFactor)/2, (self.height/self.scaleFactor)/2)
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 end
 
 function Player:hitFloor(floorEntity)
@@ -62,13 +76,20 @@ function Player:loadPlayerImage()
 	self.frameWidth = width/self.numFrames
 	self.frameHeight = height/self.numFrameStyles
 	self.scaleFactor = 4
-	self.width = self.frameWidth * self.scaleFactor
-	self.height = self.frameHeight * self.scaleFactor
+
+	
+	self.originalWidth = (self.frameWidth * self.scaleFactor)
+	self.width = self.originalWidth
+
+	-- frame has empty space so -5 will offset this
+	self.height = (self.frameHeight * self.scaleFactor) - 10
 
 	for i=0,6 do
 		for j=0,3 do
-			table.insert(self.frames, love.graphics.newQuad(j*self.frameWidth, i*self.frameHeight,
-							self.frameWidth, self.frameHeight, self.playerImage:getWidth(),
+			table.insert(self.frames, love.graphics.newQuad(j*self.frameWidth, 
+							i*self.frameHeight,
+							self.frameWidth, self.frameHeight,
+							self.playerImage:getWidth(),
 							self.playerImage:getHeight()))
 		end
 	end
