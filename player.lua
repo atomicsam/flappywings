@@ -76,7 +76,7 @@ function Player:loadPlayerImage()
 	self.frames = {}
 	self.numFrames = 4
 	self.numFrameStyles = 7
-	self.frameStyle = 1
+	self.frameStyle = 2
 	self.startFrame = (self.frameStyle - 1) * self.numFrames + 1
 
 	local width = self.playerImage:getWidth()

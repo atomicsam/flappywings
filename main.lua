@@ -17,6 +17,8 @@ function love.load()
 	startText = "Press space to get the game started"
 	textCenterStart = getTextCenter(font, startText)
 
+	flashDuration = 0.1
+
 	importSounds()
 	gameStarted = false
 
@@ -64,6 +66,10 @@ function love.draw()
 	for i, entity in ipairs(floorTable) do
 		entity:draw()
 	end
+
+	if tempPlayer.moving and not tempPlayer.alive then
+		flash()
+	end
 end
 
 function love.update(dt)
@@ -85,6 +91,10 @@ function love.update(dt)
 		end
 	end
 	drawFloorTable()
+
+	if flashDuration > 0 and not tempPlayer.alive and tempPlayer.moving  then
+		flashDuration = flashDuration - dt
+	end
 end
 
 function love.keypressed(key)
@@ -101,6 +111,7 @@ function startGame()
 	tempPlayer = Player(playerStartingX, playerStartingY)
 	tempPlayer.alive = true
 	tempPlayer.moving = true
+	flashDuration = 0.1
 
 	pipes = {}
 	table.insert(pipes, Pipe(love.graphics:getWidth(), 0, firstFloorEntity.y))
@@ -154,4 +165,11 @@ function importSounds()
 	pointSound = love.audio.newSource("assets/audio/sfx_point.wav", "static")
 	swooshSound = love.audio.newSource("assets/audio/sfx_swooshing.wav", "static")
 	wingSound = love.audio.newSource("assets/audio/sfx_wing.wav", "static")
+end
+
+function flash()
+	if flashDuration > 0 then
+		love.graphics.setColor(1, 0.2, 0.2, 0.2)
+		love.graphics.rectangle("fill", 0, 0, windowWidth, windowHeight)
+	end
 end
