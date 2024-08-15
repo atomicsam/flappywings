@@ -12,7 +12,7 @@ function Player:new(x, y)
 	self.score = 0
 
 	self.speedOfAnimation = 10
-	self.rotation = 0.2
+	self.rotation = 0
 
 	self:loadPlayerImage()
 end
