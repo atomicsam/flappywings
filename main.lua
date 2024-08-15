@@ -146,7 +146,6 @@ end
 
 function drawFloorTable()
 	if floorTable[1].x < (0 - firstFloorEntity.frameWidth*5) then
-		print(floorTable[1].x)
 		table.remove(floorTable, 1)
 		table.insert(floorTable, Floor(floorTable[#floorTable].x + firstFloorEntity.frameWidth*5))
 	end
