@@ -1,16 +1,17 @@
 function love.load()
-	success = love.window.setMode(720, 800)
-	-- love.graphics.setBackgroundColor(173/255, 216/255, 230/255, 1)
+	love.window.setMode(720, 800)
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	backgroundImage = love.graphics.newImage("assets/Background/Background2.png")
 	logo = love.graphics.newImage("assets/images/logo.png")
 
 	windowWidth = love.graphics:getWidth()
 	windowHeight = love.graphics:getHeight()
-	textHeight = windowHeight * 0.15
+	logoHeight = windowHeight * 0.05
+	textHeight = windowHeight * 0.25
 
 	font = love.graphics.newFont("fonts/firasanscompressed-book.otf", 24)
 	font:setFilter("nearest")
+	scoreFont = love.graphics.newFont("fonts/flappy-bird-font.ttf", 48)
 
 	flashDuration = 0.1
 	highScore = 0
@@ -49,14 +50,15 @@ function love.draw()
 	love.graphics.setColor(0, 0, 0, 1)
 	if not gameStarted then
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.draw(logo, windowWidth/2-logo:getWidth(), 10, 0, 2, 2)
+		love.graphics.draw(logo, windowWidth/2-logo:getWidth(), logoHeight, 0, 2, 2)
 		printTextCenter(font, "Press space to get the game started", textHeight)
-
 	elseif not tempPlayer.alive then
 		printTextCenter(font, "Press F2 to restart the game!", textHeight)
 		printTextCenter(font, "High Score: "..highScore, 10)
 	end
-	printTextCenter(font, "Score: " .. tempPlayer.score, textHeight - 30)
+	if gameStarted then
+		printTextCenter(scoreFont, tempPlayer.score, logoHeight)
+	end
 	for i, entity in ipairs(floorTable) do
 		entity:draw()
 	end
