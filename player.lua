@@ -8,6 +8,7 @@ function Player:new(x, y)
 
 	self.alive = false
 	self.moving = false
+	
 	self.score = 0
 
 	self.speedOfAnimation = 10
@@ -110,4 +111,10 @@ function Player:loadPlayerImage()
 	end
 	
 	self.currentFrame = self.startFrame
+end
+
+function Player:updateHighScore()
+	if self.score > highScore then
+		highScore = self.score
+	end
 end
