@@ -4,7 +4,7 @@ function Pipe:new(x, y, maxHeight)
 	Pipe.super.new(self, x, y)
 
 	self.maxHeight = maxHeight
-	self.height = love.math.random(50, maxHeight-200)
+	self.height = love.math.random(100, maxHeight-250)
 	self.spacing = 150
 	
 	if not pipeSpeed then
