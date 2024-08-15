@@ -14,7 +14,7 @@ function Pipe:new(x, y, maxHeight)
 	self.pipe2y = self.height + self.spacing
 	self.pipe2height = self.maxHeight-self.height-self.spacing
 	
-	self.image = love.graphics.newImage("assets/Tiles/PipeStyle1.png")
+	self.image = love.graphics.newImage("assets/images/PipeStyle1.png")
 	self:importImage()
 
 	-- account for the quad and scale factor

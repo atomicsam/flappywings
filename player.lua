@@ -72,7 +72,7 @@ function Player:hitPipe(pipeEntity)
 end
 
 function Player:loadPlayerImage()
-	self.playerImage = love.graphics.newImage("assets/Player/StyleBird1/AllBird1.png")
+	self.playerImage = love.graphics.newImage("assets/images/AllBird1.png")
 
 	self.frames = {}
 	self.numFrames = 4

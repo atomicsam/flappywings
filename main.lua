@@ -1,7 +1,7 @@
 function love.load()
 	love.window.setMode(720, 800)
 	love.graphics.setDefaultFilter("nearest", "nearest")
-	backgroundImage = love.graphics.newImage("assets/Background/Background2.png")
+	backgroundImage = love.graphics.newImage("assets/images/Background2.png")
 	logo = love.graphics.newImage("assets/images/logo.png")
 
 	windowWidth = love.graphics:getWidth()
@@ -23,9 +23,7 @@ function love.load()
 	require "entity"
 	require "player"
 	require "pipe"
-	require "score"
 	require "floor"
-	require "sky"
 
 	firstFloorEntity = Floor(0)
 	floorTable = {}

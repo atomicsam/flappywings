@@ -20,7 +20,7 @@ function Floor:draw()
 end
 
 function Floor:importImage()
-	self.image = love.graphics.newImage("assets/Tiles/SimpleStyle1.png")
+	self.image = love.graphics.newImage("assets/images/SimpleStyle1.png")
 	self.floorTiles = {}
 
 	self.frameWidth = 16
